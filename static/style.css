@@ -1,0 +1,25 @@
+.active {
+    background-color: dodgerblue;
+    border: none !important;
+    color: white;
+}
+.visible {
+    display: block !important;
+}
+#addHeading, #predHeading {
+    padding: 10px;
+    border: 2px solid lightgrey;
+    border-radius: 4px;
+    margin-left: 5px;
+    user-select: none;
+    width: fit-content;
+}
+#addHeading:hover, #predHeading:hover {
+    background-color: lightgrey;
+}
+#addHeading.active:hover, #predHeading.active:hover {
+    background-color: rgb(0, 105, 205) !important;
+}
+.table th {color: white !important;}
+
+.table tr:nth-child(even) {background-color: lightgrey !important; color: black !important;}

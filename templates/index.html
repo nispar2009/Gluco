@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gluco &middot; your new insulin calculation tool</title>
+    <link rel="stylesheet" href="https://nispar2009.github.io/spectrum-stylr-beta/light.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="shortcut icon" href="/static/favicon.png">    
+</head>
+<body>
+    <header>
+        <div style="text-align: center;" class="nav-desktop">
+            <img src="/static/logo.png" alt="Gluco">
+            <button onclick="window.location.replace('/purge')" class="btn btn-danger" style="top: 3px; position: absolute; right: 10px;">Purge database</button>
+        </div>
+    </header>
+    <h1 class="heading">Welcome to Gluco!</h1>
+    <h2>{{ basal }}</h2>
+    <table class="table" style="width: 100%;">
+        <tr>
+            <th>Meal</th>
+            <th>Reading</th>
+            <th>Insulin dose</th>
+            <th>Effect</th>
+            <th>Carbs</th>
+        </tr>
+        {% for item in last_10 %}
+        <tr>
+            <td>{{ item.time }}</td>
+            <td>{{ item.current }} mg/dL</td>
+            <td>{{ item.insulin }}</td>
+            <td>{{ item.result }} mg/dL</td>
+            <td>
+                {% if item.food == 0 %}
+                Low carb
+                {% else %}
+                High carb
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if last_10 | length == 0 %}
+    <p style="text-align: center;">There seem to be no added readings on Gluco</p>
+    {% endif %}
+
+    <h2 style="cursor: pointer;" id="addHeading"
+        onclick="document.getElementById('addCnt').classList.toggle('visible'); document.getElementById('addHeading').classList.toggle('active')">
+        Add</h2>
+
+    <div id="addCnt" style="display: none;">
+        <form action="/" method="post">
+            <input type="hidden" name="pred" value="0">
+            <input class="form" type="number" title="Current reading" name="current" value="100" min="1"> mg/dL
+            <br><br>
+            <input class="form" type="number" title="Effect" name="result" value="100" min="1"> mg/dL
+            <br><br>
+            <input class="form" step="0.25" type="number" title="Insulin" name="insulin" value="5" min="0.25"> units
+            <br><br>
+            <select title="Meal" class="form" name="time">
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+            </select>
+            <br><br>
+            <select title="Carbs" class="form" name="food">
+                <option value="0">Low carb</option>
+                <option value="1">High carb</option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+    <h2 style="cursor: pointer;" id="predHeading"
+        onclick="document.getElementById('predCnt').classList.toggle('visible'); document.getElementById('predHeading').classList.toggle('active')">
+        Predict</h2>
+
+    <div id="predCnt" style="display: none;">
+        <form action="/" method="post">
+            <input type="hidden" name="pred" value="1">
+            <input type="number" class="form" title="Current reading" name="reading2" value="100" min="1"> mg/dL
+            <br><br>
+            <select title="Meal" class="form" name="time2">
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+            </select>
+            <br><br>
+            <select title="Carbs" class="form" name="food2">
+                <option value="0">Low carb</option>
+                <option value="1">High carb</option>
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+    {% if _pred %}
+    <h2 class="heading">Analysis: {{ _pred }}</h2>
+    {% endif %}
+    <br>
+</body>
+
+</html>
