@@ -3,8 +3,6 @@ from func import *
 
 app = Flask(__name__)
 
-create_data()
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     last_10_readings = py_readings()
@@ -30,10 +28,5 @@ def index():
 
     return redirect('/')
 
-@app.route('/purge')
-def purge():
-    del_data()
-    return redirect('/')
-
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

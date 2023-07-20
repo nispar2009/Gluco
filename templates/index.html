@@ -14,7 +14,6 @@
     <header>
         <div style="text-align: center;" class="nav-desktop">
             <img src="/static/logo.png" alt="Gluco">
-            <button onclick="window.location.replace('/purge')" class="btn btn-danger" style="top: 3px; position: absolute; right: 10px;">Purge database</button>
         </div>
     </header>
     <h1 class="heading">Welcome to Gluco!</h1>
@@ -29,8 +28,8 @@
         </tr>
         {% for item in last_10 %}
         <tr>
-            <td>{{ item.time }}</td>
-            <td>{{ item.current }} mg/dL</td>
+            <td>{{ item.timing }}</td>
+            <td>{{ item.present }} mg/dL</td>
             <td>{{ item.insulin }}</td>
             <td>{{ item.result }} mg/dL</td>
             <td>
